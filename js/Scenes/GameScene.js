@@ -2,36 +2,18 @@ export default class GameScene extends Phaser.Scene {
   constructor () {
     super('Game');
   }
- 
-  levels = {
-    level1() {
-        
-
-      if(this.cameras.main.zoom >= 1.5) {
-        this.player.x +=5;
-      }
-      /*if(this.cameras.main.zoom < 1.5) {
-        
-      }*/
-
-    },
-    level2() {
-      
-    },
-    level3() {
-      
-    }
-  }
 
   preload () {
   
     // load images
     this.load.image('mountain', 'assets/mountain.png');
-    this.load.image('character', 'assets/character.png');
+    this.load.image('character', 'assets/charfaceidle.png');
 
     
     this.load.image('wolf', 'assets/wolf.png');
     this.load.image('dog', 'assets/dog.png');
+
+
   }
  
   create () {
@@ -45,19 +27,46 @@ export default class GameScene extends Phaser.Scene {
 
     this.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
 
-      if(this.cameras.main.zoom >= 0.01) {
-        this.cameras.main.zoom += deltaY * 0.01;
+      if(this.cameras.main.zoom >= 0.1) {
+        this.cameras.main.zoom += deltaY * 0.1;
       }
       else {
-        this.cameras.main.zoom = 0.01;
+        this.cameras.main.zoom = 0.1;
+      }
+
+
+      if(this.cameras.main.zoom <= 1.5) {
+        this.cameras.main.zoom += deltaX * 0.1;
+      }
+      else {
+        this.cameras.main.zoom = 1.5;
       }
       
     });
+    
+    this.levels = {
+      'level1':{
+        'path':[0, 0, 100, 100]
+      },
+      'level2':{
+        'path':[100, 100, 200, 200]
+      },
+      'level3':{
+        'path':[200, 200, 300, 300]
+      },
+    }
+
   }
 
   update () {
-    
-    level1();
+        
+    /*if(this.cameras.main.zoom >= 0.5) {
+    }
+    if(this.cameras.main.zoom < 0.5) {
+      this.player.x +=5;
+      
+    }
+    console.log(this.cameras.main.zoom);*/
 
   }
 
