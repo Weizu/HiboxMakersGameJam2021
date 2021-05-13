@@ -8,42 +8,28 @@ export default class GameScene extends Phaser.Scene {
     // load images
     this.load.image('mountain', 'assets/mountain.png');
     this.load.image('character', 'assets/charfaceidle.png');
-
-    
     this.load.image('wolf', 'assets/wolf.png');
     this.load.image('dog', 'assets/dog.png');
-
 
   }
  
   create () {
 
-    this.add.image(1000, 200, 'mountain');
-    //this.cameras.main.centerOn(100, 100);
+    this.add.image(-3840, -2160, 'mountain');
+    this.cameras.main.centerOn(100, 100);
 
-    this.player = this.add.sprite(450, 450, 'character');
+    const player = this.add.sprite(0, 0, 'character').setInteractive();
+
+    //player.anims.create(this.config)
+
+
+    this.wolf = this.add.sprite(-200, 0, 'wolf').setInteractive();
+
 
     this.cameras.main.setZoom(1);
-
-    this.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
-
-      if(this.cameras.main.zoom >= 0.1) {
-        this.cameras.main.zoom += deltaY * 0.1;
-      }
-      else {
-        this.cameras.main.zoom = 0.1;
-      }
-
-
-      if(this.cameras.main.zoom <= 1.5) {
-        this.cameras.main.zoom += deltaX * 0.1;
-      }
-      else {
-        this.cameras.main.zoom = 1.5;
-      }
-      
-    });
     
+    this.actuallevel = 'level1';
+
     this.levels = {
       'level1':{
         'path':[0, 0, 100, 100]
@@ -56,10 +42,39 @@ export default class GameScene extends Phaser.Scene {
       },
     }
 
+    this.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
+
+      if(this.cameras.main.zoom >= 0.2) {
+        this.cameras.main.zoom += deltaY * 0.1;
+      }
+      else {
+        this.cameras.main.zoom = 0.2;
+      }
+
+      if(this.cameras.main.zoom <= 1.5) {
+        this.cameras.main.zoom += deltaX * 0.1;
+      }
+      else {
+        this.cameras.main.zoom = 1.5;
+      }
+      
+    });
+
+    // this.input.on('pointerdown', function (pointer) {
+    // });
+
+    
+    this.wolf.on('pointerdown', function (pointer) {
+
+      player.x += 100;
+      player.y += 100;
+
+    });
+
   }
 
   update () {
-        
+
     /*if(this.cameras.main.zoom >= 0.5) {
     }
     if(this.cameras.main.zoom < 0.5) {
@@ -69,6 +84,5 @@ export default class GameScene extends Phaser.Scene {
     console.log(this.cameras.main.zoom);*/
 
   }
-
 
 };
